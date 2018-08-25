@@ -13,6 +13,9 @@ class ChannelVC: UIViewController {
     // Outlets
     @IBOutlet weak var loginBtn: UIButton!
     
+    // This make it so that an exit segue (the exit button at the top of view controllers) will be able to use this func as a destination.
+    @IBAction func prepareForUnwind(segue: UIStoryboardSegue){}
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
