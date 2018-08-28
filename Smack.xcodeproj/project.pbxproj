@@ -18,6 +18,7 @@
 		B7D945CB2130BDB60058767A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D945CA2130BDB60058767A /* Constants.swift */; };
 		B7D945CD2130C7670058767A /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D945CC2130C7670058767A /* LoginVC.swift */; };
 		B7D945CF2130D4E40058767A /* CreateAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D945CE2130D4E40058767A /* CreateAccountVC.swift */; };
+		B7DDC5B82135AD9900D551BD /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7DDC5B72135AD9900D551BD /* AuthService.swift */; };
 		E3175161A2C4B2EFCD128F41 /* Pods_Smack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F9FCB8EE0DC50E4F41085EB /* Pods_Smack.framework */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +41,7 @@
 		B7D945CA2130BDB60058767A /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B7D945CC2130C7670058767A /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		B7D945CE2130D4E40058767A /* CreateAccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountVC.swift; sourceTree = "<group>"; };
+		B7DDC5B72135AD9900D551BD /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 		B7BECDC6212EF91A0089CC90 /* Smack */ = {
 			isa = PBXGroup;
 			children = (
+				B7DDC5B62135AD6A00D551BD /* Services */,
 				B7D945C92130BD220058767A /* Utillities */,
 				B7D945C1213098730058767A /* Model */,
 				B7D945C0213098660058767A /* View */,
@@ -139,6 +142,14 @@
 				B7D945CA2130BDB60058767A /* Constants.swift */,
 			);
 			path = Utillities;
+			sourceTree = "<group>";
+		};
+		B7DDC5B62135AD6A00D551BD /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B7DDC5B72135AD9900D551BD /* AuthService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		CDBE928F2D9EB0E1E3F5B866 /* Pods */ = {
@@ -270,6 +281,7 @@
 				B7D945C62130990D0058767A /* ChannelVC.swift in Sources */,
 				B7D945C4213098F10058767A /* ChatVC.swift in Sources */,
 				B7D945CF2130D4E40058767A /* CreateAccountVC.swift in Sources */,
+				B7DDC5B82135AD9900D551BD /* AuthService.swift in Sources */,
 				B7D945CD2130C7670058767A /* LoginVC.swift in Sources */,
 				B7D945C82130A2CC0058767A /* GradientView.swift in Sources */,
 				B7BECDC8212EF91A0089CC90 /* AppDelegate.swift in Sources */,
