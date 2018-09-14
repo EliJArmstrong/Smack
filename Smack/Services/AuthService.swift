@@ -92,12 +92,16 @@ class AuthService{
             
             //Using SwiftyJSON
             guard let data = response.data else {return}
-            let json = JSON(data: data)
-            self.userEmail = json["user"].stringValue
-            self.authToken = json["token"].stringValue
-            
-                self.isLoggedIn = true
-                completion(true)
+                do{
+                    let json = try JSON(data: data)
+                    self.userEmail = json["user"].stringValue
+                    self.authToken = json["token"].stringValue
+                    
+                    self.isLoggedIn = true
+                    completion(true)
+                } catch{
+                    debugPrint("json error")
+                }
             } else {
                 completion(false)
                 debugPrint(response.result.error as Any)
@@ -124,7 +128,8 @@ class AuthService{
         Alamofire.request(URL_USER_ADD, method: .post, parameters: body, encoding: JSONEncoding.default, headers: header).responseJSON { (response) in
             if response.result.error == nil{
                 guard let data = response.data else {return}
-                let json = JSON(data:data)
+                do{
+                let json = try JSON(data:data)
                 let id = json["_id"].stringValue
                 let color = json["avatarColor"].stringValue
                 let avatarName = json["avatarName"].stringValue
@@ -133,6 +138,9 @@ class AuthService{
                 
                 UserDataService.instance.setUserData(id: id, color: color, avatarName: avatarName, email: email, name: name)
                 completion(true)
+                } catch{
+                    debugPrint("json error")
+                }
             } else{
                 completion(false)
                 debugPrint(response.result.error as Any)

@@ -21,13 +21,15 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 //
+
 import Foundation
 
 extension Request {
-    
+
     // MARK: Helper Types
+
     fileprivate typealias ErrorReason = AFError.ResponseValidationFailureReason
-    
+
     /// Used to represent whether validation was successful or encountered an error resulting in a failure.
     ///
     /// - success: The validation was successful.
@@ -36,26 +38,26 @@ extension Request {
         case success
         case failure(Error)
     }
-    
+
     fileprivate struct MIMEType {
         let type: String
         let subtype: String
-        
+
         var isWildcard: Bool { return type == "*" && subtype == "*" }
-        
+
         init?(_ string: String) {
             let components: [String] = {
                 let stripped = string.trimmingCharacters(in: .whitespacesAndNewlines)
-                
-                #if swift(>=3.2)
+
+            #if swift(>=3.2)
                 let split = stripped[..<(stripped.range(of: ";")?.lowerBound ?? stripped.endIndex)]
-                #else
+            #else
                 let split = stripped.substring(to: stripped.range(of: ";")?.lowerBound ?? stripped.endIndex)
-                #endif
-                
+            #endif
+
                 return split.components(separatedBy: "/")
             }()
-            
+
             if let type = components.first, let subtype = components.last {
                 self.type = type
                 self.subtype = subtype
@@ -63,7 +65,7 @@ extension Request {
                 return nil
             }
         }
-        
+
         func matches(_ mime: MIMEType) -> Bool {
             switch (type, subtype) {
             case (mime.type, mime.subtype), (mime.type, "*"), ("*", mime.subtype), ("*", "*"):
@@ -73,19 +75,21 @@ extension Request {
             }
         }
     }
-    
+
     // MARK: Properties
+
     fileprivate var acceptableStatusCodes: [Int] { return Array(200..<300) }
-    
+
     fileprivate var acceptableContentTypes: [String] {
         if let accept = request?.value(forHTTPHeaderField: "Accept") {
             return accept.components(separatedBy: ",")
         }
-        
+
         return ["*/*"]
     }
-    
+
     // MARK: Status Code
+
     fileprivate func validate<S: Sequence>(
         statusCode acceptableStatusCodes: S,
         response: HTTPURLResponse)
@@ -99,8 +103,9 @@ extension Request {
             return .failure(AFError.responseValidationFailed(reason: reason))
         }
     }
-    
+
     // MARK: Content Type
+
     fileprivate func validate<S: Sequence>(
         contentType acceptableContentTypes: S,
         response: HTTPURLResponse,
@@ -109,50 +114,51 @@ extension Request {
         where S.Iterator.Element == String
     {
         guard let data = data, data.count > 0 else { return .success }
-        
+
         guard
             let responseContentType = response.mimeType,
             let responseMIMEType = MIMEType(responseContentType)
-            else {
-                for contentType in acceptableContentTypes {
-                    if let mimeType = MIMEType(contentType), mimeType.isWildcard {
-                        return .success
-                    }
+        else {
+            for contentType in acceptableContentTypes {
+                if let mimeType = MIMEType(contentType), mimeType.isWildcard {
+                    return .success
                 }
-                
-                let error: AFError = {
-                    let reason: ErrorReason = .missingContentType(acceptableContentTypes: Array(acceptableContentTypes))
-                    return AFError.responseValidationFailed(reason: reason)
-                }()
-                
-                return .failure(error)
+            }
+
+            let error: AFError = {
+                let reason: ErrorReason = .missingContentType(acceptableContentTypes: Array(acceptableContentTypes))
+                return AFError.responseValidationFailed(reason: reason)
+            }()
+
+            return .failure(error)
         }
-        
+
         for contentType in acceptableContentTypes {
             if let acceptableMIMEType = MIMEType(contentType), acceptableMIMEType.matches(responseMIMEType) {
                 return .success
             }
         }
-        
+
         let error: AFError = {
             let reason: ErrorReason = .unacceptableContentType(
                 acceptableContentTypes: Array(acceptableContentTypes),
                 responseContentType: responseContentType
             )
-            
+
             return AFError.responseValidationFailed(reason: reason)
         }()
-        
+
         return .failure(error)
     }
 }
 
 // MARK: -
+
 extension DataRequest {
     /// A closure used to validate a request that takes a URL request, a URL response and data, and returns whether the
     /// request was valid.
     public typealias Validation = (URLRequest?, HTTPURLResponse, Data?) -> ValidationResult
-    
+
     /// Validates the request, using the specified closure.
     ///
     /// If validation fails, subsequent calls to response handlers will have an associated error.
@@ -171,12 +177,12 @@ extension DataRequest {
                 self.delegate.error = error
             }
         }
-        
+
         validations.append(validationExecution)
-        
+
         return self
     }
-    
+
     /// Validates that the response has a status code in the specified sequence.
     ///
     /// If validation fails, subsequent calls to response handlers will have an associated error.
@@ -190,7 +196,7 @@ extension DataRequest {
             return self.validate(statusCode: acceptableStatusCodes, response: response)
         }
     }
-    
+
     /// Validates that the response has a content type in the specified sequence.
     ///
     /// If validation fails, subsequent calls to response handlers will have an associated error.
@@ -204,7 +210,7 @@ extension DataRequest {
             return self.validate(contentType: acceptableContentTypes, response: response, data: data)
         }
     }
-    
+
     /// Validates that the response has a status code in the default acceptable range of 200...299, and that the content
     /// type matches any specified in the Accept HTTP header field.
     ///
@@ -218,6 +224,7 @@ extension DataRequest {
 }
 
 // MARK: -
+
 extension DownloadRequest {
     /// A closure used to validate a request that takes a URL request, a URL response, a temporary URL and a
     /// destination URL, and returns whether the request was valid.
@@ -227,7 +234,7 @@ extension DownloadRequest {
         _ temporaryURL: URL?,
         _ destinationURL: URL?)
         -> ValidationResult
-    
+
     /// Validates the request, using the specified closure.
     ///
     /// If validation fails, subsequent calls to response handlers will have an associated error.
@@ -241,7 +248,7 @@ extension DownloadRequest {
             let request = self.request
             let temporaryURL = self.downloadDelegate.temporaryURL
             let destinationURL = self.downloadDelegate.destinationURL
-            
+
             if
                 let response = self.response,
                 self.delegate.error == nil,
@@ -250,12 +257,12 @@ extension DownloadRequest {
                 self.delegate.error = error
             }
         }
-        
+
         validations.append(validationExecution)
-        
+
         return self
     }
-    
+
     /// Validates that the response has a status code in the specified sequence.
     ///
     /// If validation fails, subsequent calls to response handlers will have an associated error.
@@ -269,7 +276,7 @@ extension DownloadRequest {
             return self.validate(statusCode: acceptableStatusCodes, response: response)
         }
     }
-    
+
     /// Validates that the response has a content type in the specified sequence.
     ///
     /// If validation fails, subsequent calls to response handlers will have an associated error.
@@ -281,11 +288,11 @@ extension DownloadRequest {
     public func validate<S: Sequence>(contentType acceptableContentTypes: S) -> Self where S.Iterator.Element == String {
         return validate { [unowned self] _, response, _, _ in
             let fileURL = self.downloadDelegate.fileURL
-            
+
             guard let validFileURL = fileURL else {
                 return .failure(AFError.responseValidationFailed(reason: .dataFileNil))
             }
-            
+
             do {
                 let data = try Data(contentsOf: validFileURL)
                 return self.validate(contentType: acceptableContentTypes, response: response, data: data)
@@ -294,7 +301,7 @@ extension DownloadRequest {
             }
         }
     }
-    
+
     /// Validates that the response has a status code in the default acceptable range of 200...299, and that the content
     /// type matches any specified in the Accept HTTP header field.
     ///

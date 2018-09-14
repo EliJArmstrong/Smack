@@ -10,6 +10,7 @@
 		B767BFDF214C4289008A1B25 /* UserDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B767BFDE214C4289008A1B25 /* UserDataService.swift */; };
 		B767BFE1214C534C008A1B25 /* AvatarPickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B767BFE0214C534C008A1B25 /* AvatarPickerVC.swift */; };
 		B767BFE3214C5623008A1B25 /* AvatarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B767BFE2214C5623008A1B25 /* AvatarCell.swift */; };
+		B767BFE5214C738F008A1B25 /* Circleimage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B767BFE4214C738F008A1B25 /* Circleimage.swift */; };
 		B7BECDC8212EF91A0089CC90 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BECDC7212EF91A0089CC90 /* AppDelegate.swift */; };
 		B7BECDCD212EF91A0089CC90 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7BECDCB212EF91A0089CC90 /* Main.storyboard */; };
 		B7BECDCF212EF91A0089CC90 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B7BECDCE212EF91A0089CC90 /* Assets.xcassets */; };
@@ -33,6 +34,7 @@
 		B767BFDE214C4289008A1B25 /* UserDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataService.swift; sourceTree = "<group>"; };
 		B767BFE0214C534C008A1B25 /* AvatarPickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarPickerVC.swift; sourceTree = "<group>"; };
 		B767BFE2214C5623008A1B25 /* AvatarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarCell.swift; sourceTree = "<group>"; };
+		B767BFE4214C738F008A1B25 /* Circleimage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Circleimage.swift; sourceTree = "<group>"; };
 		B7BECDC4212EF91A0089CC90 /* Smack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Smack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7BECDC7212EF91A0089CC90 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B7BECDCC212EF91A0089CC90 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				B7D945C72130A2CC0058767A /* GradientView.swift */,
 				B7DDC5B92135BDA500D551BD /* roundedButton.swift */,
 				B767BFE2214C5623008A1B25 /* AvatarCell.swift */,
+				B767BFE4214C738F008A1B25 /* Circleimage.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -270,12 +273,14 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-Smack/Pods-Smack-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Socket.IO-Client-Swift/SocketIO.framework",
+				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketIO.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -303,6 +308,7 @@
 				B7BECDC8212EF91A0089CC90 /* AppDelegate.swift in Sources */,
 				B7BECDDD212F093C0089CC90 /* SWRevealViewController.m in Sources */,
 				B7D945CB2130BDB60058767A /* Constants.swift in Sources */,
+				B767BFE5214C738F008A1B25 /* Circleimage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
