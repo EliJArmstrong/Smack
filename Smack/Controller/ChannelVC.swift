@@ -13,6 +13,8 @@ class ChannelVC: UIViewController {
     // Outlets
     @IBOutlet weak var loginBtn: UIButton!
     
+    @IBOutlet weak var userImg: Circleimage!
+    
     // This make it so that an exit segue (the exit button at the top of view controllers) will be able to use this func as a destination.
     @IBAction func prepareForUnwind(segue: UIStoryboardSegue){}
     
@@ -23,10 +25,24 @@ class ChannelVC: UIViewController {
         // This will cause all but 60 pixels to reveal of this view controller
         self.revealViewController().rearViewRevealWidth = self.view.frame.size.width  - 60;
         //print(self.view.frame.size.width  - 60)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(userDataDidChange(_:)), name: NOTIF_USER_DATA_DID_CHANGE, object: nil)
     }
 
     @IBAction func LoginBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: TO_LOGIN, sender: nil)
+    }
+    
+    @objc func userDataDidChange(_ notif: Notification){
+        if AuthService.instance.isLoggedIn {
+            loginBtn.setTitle(UserDataService.instance.name, for: .normal)
+            userImg.image = UIImage(named: UserDataService.instance.avatarName)
+            userImg.backgroundColor = UserDataService.instance.returnUIColor(components: UserDataService.instance.avatarColor)
+        } else{
+            loginBtn.setTitle("Login", for: .normal)
+            userImg.image = UIImage(named: "menuProfileIcon")
+            userImg.backgroundColor = UIColor.clear
+        }
     }
     
 }
