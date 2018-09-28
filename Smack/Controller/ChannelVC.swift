@@ -23,10 +23,16 @@ class ChannelVC: UIViewController {
         super.viewDidLoad()
         
         // This will cause all but 60 pixels to reveal of this view controller
-        self.revealViewController().rearViewRevealWidth = self.view.frame.size.width  - 60;
         //print(self.view.frame.size.width  - 60)
+        self.revealViewController().rearViewRevealWidth = self.view.frame.size.width  - 60;
         
+        
+        // This observers for a Notification named NOTIF_USER_DATA_DID_CHANGE and runs the function called userDataDidChange(_:)
         NotificationCenter.default.addObserver(self, selector: #selector(userDataDidChange(_:)), name: NOTIF_USER_DATA_DID_CHANGE, object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        setupUserInfo()
     }
 
     @IBAction func LoginBtnPressed(_ sender: Any) {
@@ -40,6 +46,10 @@ class ChannelVC: UIViewController {
     }
     
     @objc func userDataDidChange(_ notif: Notification){
+        setupUserInfo()
+    }
+    
+    func setupUserInfo(){
         if AuthService.instance.isLoggedIn {
             loginBtn.setTitle(UserDataService.instance.name, for: .normal)
             userImg.image = UIImage(named: UserDataService.instance.avatarName)
