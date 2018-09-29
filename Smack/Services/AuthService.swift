@@ -100,7 +100,7 @@ class AuthService{
                     self.isLoggedIn = true
                     completion(true)
                 } catch{
-                    debugPrint("json error")
+                    debugPrint("json error (authService loginUser)")
                 }
             } else {
                 completion(false)
@@ -162,7 +162,7 @@ class AuthService{
             
             UserDataService.instance.setUserData(id: id, color: color, avatarName: avatarName, email: email, name: name)
         } catch{
-            debugPrint("json error")
+            debugPrint("json error (authService setUserInfo)")
         }
     }
 }
