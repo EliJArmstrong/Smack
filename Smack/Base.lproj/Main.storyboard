@@ -79,6 +79,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="channelNameLbl" destination="LEB-Uk-4B3" id="4r0-wc-c3H"/>
                         <outlet property="menuBtn" destination="PXD-55-TAR" id="2ti-Qs-RFN"/>
                     </connections>
                 </viewController>
