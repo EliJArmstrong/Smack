@@ -24,31 +24,32 @@ class MessageService{
                 guard let data = response.data else {return}
                 
                 // Swift 4 way to get json note the Channel model has to conform to the naming conventions of the data being read in from the server.
-                do{
-                    self.channels = try JSONDecoder().decode([Channel].self, from: data)
-                }catch let error {
-                    debugPrint(error as Any)
-                }
-                
-                print(self.channels)
-                
-                // Swifty json way
+                // I do not Like this too much
 //                do{
-//                    if let json = try JSON(data: data).array {
-//                        for item in json{
-//                            let name = item["name"].stringValue
-//                            let channelDescription = item["description"].stringValue
-//                            let id = item["_id"].stringValue
-//
-//                            let channel = Channel(channelTitle: name, channelDescription: channelDescription, id: id)
-//
-//                            self.channels.append(channel)
-//                        }
-//                        completion(true)
-//                    }
-//                } catch{
-//                    debugPrint("json error")
+//                    self.channels = try JSONDecoder().decode([Channel].self, from: data)
+//                }catch let error {
+//                    debugPrint(error as Any)
 //                }
+                
+                //print(self.channels)
+                
+                // Swiftyjson way
+                do{
+                    if let json = try JSON(data: data).array {
+                        for item in json{
+                            let name = item["name"].stringValue
+                            let channelDescription = item["description"].stringValue
+                            let id = item["_id"].stringValue
+
+                            let channel = Channel(channelTitle: name, channelDescription: channelDescription, id: id)
+
+                            self.channels.append(channel)
+                        }
+                        completion(true)
+                    }
+                } catch{
+                    debugPrint("json error")
+                }
             } else {
                 completion(false)
                 debugPrint(response.result.error as Any)
