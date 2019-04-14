@@ -9,7 +9,7 @@
 import UIKit
 
 @IBDesignable
-class roundedButton: UIButton {
+class RoundedButton: UIButton {
 
     @IBInspectable var cornerRadius: CGFloat = 3.0{
         didSet {

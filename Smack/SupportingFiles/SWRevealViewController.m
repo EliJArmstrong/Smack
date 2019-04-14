@@ -479,6 +479,11 @@ static CGFloat scaledValue( CGFloat v1, CGFloat min2, CGFloat max2, CGFloat min1
     return _view.bounds;
 }
 
+- (void)pauseInteractiveTransition {
+
+}
+
+
 @end
 
 
@@ -1023,16 +1028,16 @@ const int FrontViewPositionNone = 0xff;
 
 - (void)_getRevealWidth:(CGFloat*)pRevealWidth revealOverDraw:(CGFloat*)pRevealOverdraw forSymetry:(int)symetry
 {
-    if ( symetry < 0 ) *pRevealWidth = _rightViewRevealWidth, *pRevealOverdraw = _rightViewRevealOverdraw;
-    else *pRevealWidth = _rearViewRevealWidth, *pRevealOverdraw = _rearViewRevealOverdraw;
+    if ( symetry < 0 ) (void)(*pRevealWidth = _rightViewRevealWidth), *pRevealOverdraw = _rightViewRevealOverdraw;
+    else (void)(*pRevealWidth = _rearViewRevealWidth), *pRevealOverdraw = _rearViewRevealOverdraw;
     
     if (*pRevealWidth < 0) *pRevealWidth = _contentView.bounds.size.width + *pRevealWidth;
 }
 
 - (void)_getBounceBack:(BOOL*)pBounceBack pStableDrag:(BOOL*)pStableDrag forSymetry:(int)symetry
 {
-    if ( symetry < 0 ) *pBounceBack = _bounceBackOnLeftOverdraw, *pStableDrag = _stableDragOnLeftOverdraw;
-    else *pBounceBack = _bounceBackOnOverdraw, *pStableDrag = _stableDragOnOverdraw;
+    if ( symetry < 0 ) (void)(*pBounceBack = _bounceBackOnLeftOverdraw), *pStableDrag = _stableDragOnLeftOverdraw;
+    else (void)(*pBounceBack = _bounceBackOnOverdraw), *pStableDrag = _stableDragOnOverdraw;
 }
 
 - (void)_getAdjustedFrontViewPosition:(FrontViewPosition*)frontViewPosition forSymetry:(int)symetry
@@ -1455,21 +1460,21 @@ const int FrontViewPositionNone = 0xff;
     UIView *view = nil;
     
     if ( operation == SWRevealControllerOperationReplaceRearController )
-        old = _rearViewController, _rearViewController = new, view = _contentView.rearView;
+        (void)(old = _rearViewController), (void)(_rearViewController = new), view = _contentView.rearView;
     
     else if ( operation == SWRevealControllerOperationReplaceFrontController )
-        old = _frontViewController, _frontViewController = new, view = _contentView.frontView;
+        (void)(old = _frontViewController), (void)(_frontViewController = new), view = _contentView.frontView;
     
     else if ( operation == SWRevealControllerOperationReplaceRightController )
-        old = _rightViewController, _rightViewController = new, view = _contentView.rightView;
+        (void)(old = _rightViewController), (void)(_rightViewController = new), view = _contentView.rightView;
 
-    void (^completion)() = [self _transitionFromViewController:old toViewController:new inView:view];
+    void (^completion)(void) = [self _transitionFromViewController:old toViewController:new inView:view];
     
-    void (^animationCompletion)() = ^
+    void (^animationCompletion)(void) = ^
     {
         completion();
-        if ( [_delegate respondsToSelector:@selector(revealController:didAddViewController:forOperation:animated:)] )
-            [_delegate revealController:self didAddViewController:new forOperation:operation animated:animated];
+        if ( [self->_delegate respondsToSelector:@selector(revealController:didAddViewController:forOperation:animated:)] )
+            [self->_delegate revealController:self didAddViewController:new forOperation:operation animated:animated];
     
         [self _dequeue];
     };

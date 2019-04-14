@@ -108,7 +108,6 @@ class ChatVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @objc func userDataDidChange(_ notif: Notification){
         if AuthService.instance.isLoggedIn{
             onLoginGetMessages()
-            //self.channelNameLbl.text = "Smack"
         }else{
             channelNameLbl.text = "Please Log In"
             tableView.reloadData()
